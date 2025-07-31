@@ -1,3 +1,6 @@
+import { faker } from '@faker-js/faker';
+
+
 Cypress.Commands.add('token', (email, senha) => {
     cy.request({
         method: 'POST',
@@ -26,3 +29,22 @@ Cypress.Commands.add('token', (email, senha) => {
           failOnStatusCode: false
     })
  })
+ Cypress.Commands.add('cadastrarUsuario', (token) => {
+  const nome = faker.person.fullName();
+  const email = faker.internet.email(); 
+  const senha = "teste";
+
+  return cy.request({
+    method: 'POST',
+    url: 'usuarios',
+    headers: {
+      authorization: token
+    },
+    body: {
+      nome,
+      email,
+      password: senha,
+      administrador: "true"
+    },
+  });
+});
